@@ -11,7 +11,7 @@ RUN mkdir -p /setup
 
 COPY ./requirements.txt /setup
 
-RUN pip install /setup/requirements.txt
+RUN pip install -r /setup/requirements.txt
 
 EXPOSE 9999
 
