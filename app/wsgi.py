@@ -1,8 +1,21 @@
 import json
+from http import HTTPStatus
+# import psycopg2
+
 from wsgiref.simple_server import make_server
 
 
-def return_response(environ, start_response):
+# conn = psycopg2.connect(
+#    database="POSTGRES",
+#    user="POSTGRES",
+#    password="POSTGRES",
+#    host="db",
+#    port="5432",
+# )
+
+
+def application(environ, start_response):
+    print('AAAAA')
     request = Request(environ)
     view = get_view(request.url)
     response = view(request)
@@ -38,6 +51,8 @@ def get_view(url):
       return hello_word
    elif url == '/contagem-pessoas':
       return count_pessoas
+   elif url == '/pessoa':
+      return insert_pessoa
    else:
       return none_response
 
@@ -54,6 +69,15 @@ def count_pessoas(request):
    return JsonResponse({"pessoas": 10})
 
 
+def insert_pessoa(request):
+   # if request.method != "POST":
+
+   # return JsonResponse({})
+
+   return JsonResponse({}, status_code=HTTPStatus.UNPROCESSABLE_ENTITY)
+
+
 if __name__ == "__main__":
-    server = make_server("localhost", 9001, return_response)
+    print('iniciando server: 8080')
+    server = make_server("localhost", 8080, application)
     server.serve_forever()

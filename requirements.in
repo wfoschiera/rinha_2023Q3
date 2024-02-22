@@ -1,1 +1,2 @@
 ruff
+psycopg2-binary
